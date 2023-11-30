@@ -1,6 +1,7 @@
 # Support Vector Machines Exercise
 
-Today we will experiment with a very powerful algorithm, called *Support Vector Machine (SVM)*. SVMs are widely used for classification, but can also solve regression problems, as we will demostrate in our optional task for time series prediction.
+Now we will experiment with a very powerful algorithm, called *Support Vector Machine (SVM)*. SVMs are widely used for classification, but can also solve regression problems, as we will demostrate in our optional task for time series prediction. In order to try using SVMs for classification you can choose between Task 1 (easier), where you need to train an SVM classifier for the Iris dataset or Task 2 (longer), where you will classify the images of some presidents.
+
 ### Task 1: Linear Classification with SVMs
 
 In this exercise, your task is to implement a linear SVM classifier for the Iris dataset, which contains data for different iris species that we want to classify.
@@ -22,7 +23,7 @@ In the lecture, you have seen that linear hard-margin SVMs fail to classify the 
 
 We will now apply this algorithm for face recognition. We will use the [Labeled Faces in the Wild Dataset](http://vis-www.cs.umass.edu/lfw/).
 
-1. Starting in the `__main__` function of `src/ex2_soft_margin_svm.py` load the dataset from ``sklearn.datasets.fetch_lfw_people``. This can take a while when running for the first time because it has to download the dataset. For this exercise, we only want classes with at least 70 images per person. To improve the runtime, you can also resize the images. Use a resize factor below 0.5.
+1. Starting in the `__main__` function of `src/ex2_soft_margin_svm.py` load the dataset from ``sklearn.datasets.fetch_lfw_people``. This can take a while when running for the first time because it has to download the dataset. For this exercise, we only want classes with at least 70 images per person. There should be 7 such classes. To improve the runtime, you can also resize the images. Use a resize factor of 0.4.
 2. Gather information about the dataset: Print the number of samples, the number of image features (pixels) and the number of classes.
 
 3. Use the provided function `plot_image_matrix` to plot the first 12 images with their corresponding labels as titles.
