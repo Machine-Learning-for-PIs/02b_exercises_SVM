@@ -1,42 +1,26 @@
 # Support Vector Machines Exercise
 
-Now we will experiment with a very powerful algorithm, called *Support Vector Machine (SVM)*. SVMs are widely used for classification, but can also solve regression problems, as we will demostrate in our optional task for time series prediction. In order to try using SVMs for classification you can choose between Task 1 (easier), where you need to train an SVM classifier for the Iris dataset or Task 2 (longer), where you will classify the images of some presidents.
+Now we will experiment with a very powerful algorithm, called *Support Vector Machine (SVM)*. SVMs are widely used for classification, but can also solve regression problems, as we will demostrate in our optional task for time series prediction.
 
-### Task 1: Linear Classification with SVMs
-
-In this exercise, your task is to implement a linear SVM classifier for the Iris dataset, which contains data for different iris species that we want to classify.
-
-To simplify this task, we will again use the popular python library for machine learning called [Scikit-Learn](https://scikit-learn.org/stable/index.html). It implements all kinds of machine learning algorithms and tools including SVMs.
-
-1. Navigate to the `__main__` function of `src/ex1_linear_svm.py` and load the iris dataset from `sklearn.datasets`.
-2. Get access to the data, the labels and the class names. In the lecture, you saw how an SVM can be used for the binary classification problem. Find out how `sklearn` implements multi-class classification.
-3. Split the dataset into training and test data using ``sklearn.model_selection.train_test_split``. The test set should contain 25% of the data. Use `random_state=29` in the split function to generate reproducible results.
-4.1. Implement a function `train_test_svc` to create a Linear SVM classifier from the ``sklearn.svm.LinearSVC`` class and fit it to the training data.
-4.2. In the same function, test the classifier on the test set and evaluate its performance by computing the accuracy. ``sklearn.metrics`` provides functions to evaluate this metric. Express the accuracy as a percentage and round to one decimal place. Your function `train_test_svc` should return the classifier and the accuracy value. 
-5. Print the accuracy.
-
-6. Plot the confusion matrix using `sklearn.metrics.ConfusionMatrixDisplay.from_estimator`. Use `display_labels=iris.target_names` for better visualization.
-
-### Task 2: Classification with soft-margin SVMs
+### Task 1: Classification with soft-margin SVMs
 
 In the lecture, you have seen that linear hard-margin SVMs fail to classify the data if it is not linearly separable inside the input space. For this reason, we use different kernels that transform the data into a different space, where it is easier to perform the separation. Additionally, some points may be on the wrong side of the hyperplane due to noise. To handle this, we often use *soft-margin* SVMs. Different from the hard-margin SVM, soft-margin SVM allows for certain data points to be on "the wrong side" of the hyperplane based on their distance to said plane and introduces a hyperparameter $C$ to control the effect of the regularization.
 
 We will now apply this algorithm for face recognition. We will use the [Labeled Faces in the Wild Dataset](http://vis-www.cs.umass.edu/lfw/).
 
-1. Starting in the `__main__` function of `src/ex2_soft_margin_svm.py` load the dataset from ``sklearn.datasets.fetch_lfw_people``. This can take a while when running for the first time because it has to download the dataset. For this exercise, we only want classes with at least 70 images per person. There should be 7 such classes. To improve the runtime, you can also resize the images. Use a resize factor of 0.4.
+1. Starting in the `__main__` function of `src/ex2_soft_margin_svm.py` load the dataset from ``sklearn.datasets.fetch_lfw_people``. This can take a while when running for the first time because it has to download the dataset. For this exercise, we only want classes with at least 70 images per person. To improve the runtime, we resize the images using a resize factor of 0.4.
 2. Gather information about the dataset: Print the number of samples, the number of image features (pixels) and the number of classes.
-
 3. Use the provided function `plot_image_matrix` to plot the first 12 images with their corresponding labels as titles.
-
 4. Split the data 80:20 into training and test data. Use `random_state=42` in the split function.
-5. Use the `StandardScaler` from `sklearn.preprocessing` on the train set and scale both the train and the test set.
+5. SVM trains much better if the input is standartized. Use the `StandardScaler` from `sklearn.preprocessing` on the train set and standartize (Hint: `transform`) both the train and the test set.
 
 A lot of machine learning approaches are configurable. This means that there are parameters that are not learned by the algorithm itself but rather chosen by the developer. These *hyperparameters* have to be chosen in a way to maximize performance. In this case, we have two new parameters we want to evaluate:
 * The regularization constant $C$
 * and the choice of the kernel function.
 
 Now we need to find the best values for our hyperparameters. Implement the hyperparameter search in the function `cv_svm` following these steps:
-6.1. Define a dictionary of parameters that you want to cross-validate. (Hint: Reasonable values for $C$ range from 0.01 to 1000, while for kernels it is usually sufficient to test `linear`, `rgb` and `poly`.)
+
+6.1. Define a dictionary of parameters that you want to cross-validate. Reasonable values for $C$ range from 0.01 to 1000, so test them as `"C": [10**i for i in range(-2, 4, 1)]`. For kernels it is sufficient to test `linear`, `rgb` and `poly`.
 
 6.2. Initialize your model using the `sklearn.svm.SVC` class. Use the ``sklearn.model_selection.GridSearchCV`` class to find optimal hyperparameters for this task.  
 
@@ -46,12 +30,7 @@ Now we need to find the best values for our hyperparameters. Implement the hyper
 
 9. Plot the output for some images from the test set using the function `plot_image_matrix`. Plot the predictions and the true labels of images as titles.
 
-Another way to evaluate the performance of a model is the [ROC-Curve](https://en.wikipedia.org/wiki/Receiver_operating_characteristic). It is obtained by plotting the true positive rate (TPR) against the false positive rate (FPR) for different threshold settings.
-
-10. (Optional) Calculate the ROC curve and the area under the curve (AUC) for each class of the test set. Appropriate functions can be found inside ``sklearn.metrics``. Plot the results.
-(Hint: You can obtain the scores of each prediction by calling the ``decision_function`` of your classifier.)
-
-### Task 3 (Optional): Time-series prediction with SVM
+### Task 2 (Optional): Time-series prediction with SVM
 
 You can also use SVMs for regression. In this exercise, we will take a brief look at time-series predictions. The goal is to infer new values from a set of old observations. For this we will look at the number of Covid-19 cases.
 
@@ -86,7 +65,7 @@ Implement the hyperparameter search in the function `cv_svr` following these ste
 5.2. Initialize your model using the `sklearn.svm.SVR` class. Use the grid search to find optimal hyperparameters. 
 
 6. Print the parameters of the best estimator found with the function `cv_svr`.
-
+	
 7. After that go to the ``recursive_forecast()`` function where the new predictions are recursivley used to generate predictions even further in the future. Implement the TODOs.
 8. Use the function `recursive_forecast` to make predictions for the next 5 days. Don't forget to denormalize your predictions. Use `numpy.round` to round the predictions after denormalization. 
 9. Plot the predicted results with `plot_prediction`.
