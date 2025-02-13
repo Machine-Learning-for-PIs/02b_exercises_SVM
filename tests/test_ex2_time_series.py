@@ -1,4 +1,5 @@
 """Test functions from time series prediction."""
+
 import sys
 
 import numpy as np
@@ -7,7 +8,7 @@ from sklearn.svm import SVR
 
 sys.path.insert(0, "./src/")
 
-from src.ex3_time_series import cv_svr, recursive_forecast
+from src.ex2_time_series import cv_svr, recursive_forecast
 
 
 def test_recursive_forecast():

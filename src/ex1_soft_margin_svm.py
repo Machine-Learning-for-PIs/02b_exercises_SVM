@@ -1,11 +1,10 @@
 """Use soft-margin SVM for face recognition."""
-import itertools
 
 import matplotlib.pyplot as plt
 import numpy as np
 from sklearn import svm
 from sklearn.datasets import fetch_lfw_people
-from sklearn.metrics import accuracy_score, auc, roc_curve
+from sklearn.metrics import accuracy_score
 from sklearn.model_selection import GridSearchCV, train_test_split
 from sklearn.preprocessing import StandardScaler
 

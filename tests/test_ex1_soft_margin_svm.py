@@ -1,4 +1,5 @@
 """Test soft margin svm functions."""
+
 import sys
 
 import numpy as np
@@ -7,7 +8,7 @@ from sklearn.model_selection import GridSearchCV
 
 sys.path.insert(0, "./src/")
 
-from src.ex2_soft_margin_svm import cv_svm
+from src.ex1_soft_margin_svm import cv_svm
 
 
 def test_cv_svm():
